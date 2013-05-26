@@ -1,31 +1,40 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-import Data.ByteString.Char8 as BS
+import qualified Data.ByteString.Char8 as BS
 import Database.KyotoCabinet.Db as KC
+import ParseMobi
 import System.Environment
 import System.Exit
 
-import Prelude hiding (putStrLn)
-
 printUsage :: IO ()
 printUsage = do
-    putStrLn "whatbook [COMMAND]"
-    putStrLn "Available commands:"
-    putStrLn "help                   -- Displays this text."
-    putStrLn "init                   -- Initializes the database."
-    putStrLn "update                 -- Updates the database."
-    putStrLn "search_title <title>   -- Searches the database for books titled <title>."
-    putStrLn "search_author <author> -- Searches the database for books written by  <author>."
+    BS.putStrLn "whatbook [COMMAND]"
+    BS.putStrLn "Available commands:"
+    BS.putStrLn "help                   -- Displays this text."
+    BS.putStrLn "init                   -- Initializes the database."
+    BS.putStrLn "update                 -- Updates the database."
+    BS.putStrLn "search_title <title>   -- Searches the database for books titled <title>."
+    BS.putStrLn "search_author <author> -- Searches the database for books written by  <author>."
     exitWith ExitSuccess
 
-runCommand :: [String] -> IO ()
+searchTitle :: BS.ByteString -> BS.ByteString
+searchTitle term_title = BS.concat ["Did not find ", term_title, " when searching for author."]
+
+searchAuthor :: BS.ByteString -> BS.ByteString
+searchAuthor term_author = BS.concat ["Did not find ", term_author, " when searching for author."]
+
+runCommand :: [BS.ByteString] -> IO ()
 runCommand ["help"] = printUsage
+runCommand ["search_title", term_title] = BS.putStrLn $
+    searchTitle term_title
+runCommand ["search_author", term_author] = BS.putStrLn $
+    searchAuthor term_author
 runCommand _ = printUsage
 
 main :: IO ()
 main = do
     args <- getArgs
-    runCommand args
+    runCommand $ fmap BS.pack args
 
     exitWith ExitSuccess
 
