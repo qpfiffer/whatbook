@@ -8,7 +8,7 @@ import System.Exit
 
 printUsage :: IO ()
 printUsage = do
-    BS.putStrLn "whatbook [COMMAND]"
+    BS.putStrLn "potential-octo-shame [COMMAND]"
     BS.putStrLn "Available commands:"
     BS.putStrLn "help                   -- Displays this text."
     BS.putStrLn "init                   -- Initializes the database."
