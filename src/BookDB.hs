@@ -2,10 +2,15 @@
 
 module BookDB where
 
+import           ParseMobi
 import qualified Data.ByteString as BS
 import           Database.KyotoCabinet.Db
 import           System.FilePath.Find
 
+
+addFile :: ByteString -> KcDb -> IO a
+addFile file db =
+    putStrLn file
 
 initDB :: IO ()
 initDB = do
@@ -18,4 +23,4 @@ initDB = do
         -- 3. Cleanup
         mobi_files <- find always (extension ==? ".mobi"
             ||? extension ==? ".MOBI") "./"
-        mapM_ putStrLn mobi_files
+        mapM_ (\x -> addFile x db)  mobi_files

@@ -1,5 +1,8 @@
 module ParseMobi where
 
+import Data.ByteString.Lazy as BL
+import Data.Binary.Get
+import Data.Word
 -- Idea:
 -- Go to offset 0x80 (128) to see if there is an EXTH header.
 -- If there is one, go to 0xF4 + 0x04 (244 + 4) which is where the EXTH header should be.
@@ -18,7 +21,11 @@ data MobiInfo = MobiInfo { author :: String
                          , file :: FilePath
                          } deriving (Eq, Show)
 
-parseMobi :: FilePath -> Maybe MobiInfo
-parseMobi _ = Just $ MobiInfo "Duke McQueen" (concat ["How I became the sun: Twelve "
-    , " Stories of Success"
-    ]) "./duke_mcqueen.mobi"
+-- possibleHeader :: FilePath -> Get Word32
+-- possibleHeader file =
+--     header <- getWord32host
+--     return header
+
+-- | Pass in a filehandle and parseMobi will spit out (probably) a MobiInfo thing.
+parseMobi :: ByteString -> Maybe MobiInfo
+parseMobi file =

@@ -15,6 +15,7 @@ executable potential-octo-shame
   -- main-is:
   -- other-modules:
   build-depends:       base,
+                       binary,
                        bytestring,
                        filemanip,
                        KyotoCabinet
