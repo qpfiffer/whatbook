@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import BookDB
-import qualified Data.ByteString.Char8 as BS
+import Data.ByteString.Lazy.Char8 as BS
 import Database.KyotoCabinet.Db as KC
 import ParseMobi
 import System.Environment

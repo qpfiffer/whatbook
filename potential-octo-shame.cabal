@@ -16,8 +16,9 @@ executable potential-octo-shame
   -- other-modules:
   build-depends:       base,
                        binary,
-                       bytestring,
+                       bytestring >= 0.10.2.0,
                        filemanip,
+                       ghc-prim,
                        KyotoCabinet
   hs-source-dirs:      src
   Main-is:             Main.hs
