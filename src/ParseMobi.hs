@@ -1,7 +1,5 @@
 module ParseMobi where
 
-import System.IO
-
 -- Idea:
 -- Go to offset 0x80 (128) to see if there is an EXTH header.
 -- If there is one, go to 0xF4 + 0x04 (244 + 4) which is where the EXTH header should be.
@@ -17,7 +15,10 @@ import System.IO
 -- | The type created and returned by parseMobi.
 data MobiInfo = MobiInfo { author :: String
                          , title :: String
+                         , file :: FilePath
                          } deriving (Eq, Show)
 
 parseMobi :: FilePath -> Maybe MobiInfo
-parseMobi _ = Just $ MobiInfo "Duke McQueen" "How I became the sun: Twelve Stories of Success"
+parseMobi _ = Just $ MobiInfo "Duke McQueen" (concat ["How I became the sun: Twelve "
+    , " Stories of Success"
+    ]) "./duke_mcqueen.mobi"

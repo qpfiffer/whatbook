@@ -1,5 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+import BookDB
 import qualified Data.ByteString.Char8 as BS
 import Database.KyotoCabinet.Db as KC
 import ParseMobi
@@ -29,6 +30,10 @@ runCommand ["search_title", term_title] = BS.putStrLn $
     searchTitle term_title
 runCommand ["search_author", term_author] = BS.putStrLn $
     searchAuthor term_author
+runCommand ["init"] = do
+    BS.putStrLn "Initializing books.kch..."
+    initDB
+    BS.putStrLn "Finished updating books db."
 runCommand _ = printUsage
 
 main :: IO ()
