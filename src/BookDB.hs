@@ -11,6 +11,7 @@ import           System.FilePath.Find
 addFile :: ByteString -> KcDb -> IO a
 addFile file db =
     putStrLn file
+    kcdbset db (BS.pack $ title mobi) (BS.pack $ 
 
 initDB :: IO ()
 initDB = do

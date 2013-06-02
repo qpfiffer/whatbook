@@ -29,3 +29,4 @@ data MobiInfo = MobiInfo { author :: String
 -- | Pass in a filehandle and parseMobi will spit out (probably) a MobiInfo thing.
 parseMobi :: ByteString -> Maybe MobiInfo
 parseMobi file =
+    
