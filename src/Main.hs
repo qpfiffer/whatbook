@@ -13,6 +13,7 @@ printUsage = do
     BS.putStrLn "Available commands:"
     BS.putStrLn "help                   -- Displays this text."
     BS.putStrLn "init                   -- Initializes the database."
+    BS.putStrLn "dump                   -- Dumps all the records in the database."
     BS.putStrLn "update                 -- Updates the database."
     BS.putStrLn "search_title <title>   -- Searches the database for books titled <title>."
     BS.putStrLn "search_author <author> -- Searches the database for books written by  <author>."
@@ -34,6 +35,10 @@ runCommand ["init"] = do
     BS.putStrLn "Initializing books.kch..."
     initDB
     BS.putStrLn "Finished updating books db."
+runCommand ["dump"] = do
+    BS.putStrLn "Dumping DB..."
+    dumpDB
+    BS.putStrLn "Dumped all records."
 runCommand _ = printUsage
 
 main :: IO ()

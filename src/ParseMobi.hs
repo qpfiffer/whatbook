@@ -3,6 +3,7 @@
 module ParseMobi where
 
 import           Data.ByteString.Lazy as BL
+import           Data.ByteString.Lazy.Char8 as BLC
 import           Data.Binary
 import           Data.Binary.Get
 import           Data.Word
