@@ -13,7 +13,8 @@ cabal-version:       >=1.8
 
 executable potential-octo-shame
   -- main-is:
-  -- other-modules:
+  other-modules:       ParseMobi,
+                       BookDB
   build-depends:       base,
                        binary,
                        bytestring >= 0.10.2.0,
