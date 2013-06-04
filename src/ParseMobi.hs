@@ -6,7 +6,6 @@ import           Data.ByteString.Lazy as BL
 import           Data.ByteString.Lazy.Char8 as BLC
 import           Data.Binary
 import           Data.Binary.Get
-import           Data.Word
 import           GHC.Generics (Generic)
 -- Idea:
 -- Go to offset 0x80 (128) to see if there is an EXTH header.
@@ -29,17 +28,12 @@ data MobiInfo = MobiInfo { author :: BL.ByteString
                          } deriving (Eq, Show, Generic)
 instance Binary MobiInfo
 
--- possibleHeader :: FilePath -> Get Word32
--- possibleHeader file =
---     header <- getWord32host
---     return header
-
 -- | Pass in a filehandle and parseMobi will spit out (probably) a MobiInfo
 -- thing.
 parseMobi :: BL.ByteString -> Maybe MobiInfo
 parseMobi file =
-    Just $ MobiInfo book_author book_title book_path
+    Just $ MobiInfo book_author (BLC.pack $ show header) book_path
   where
-    book_author = "Awesome dude"
-    book_title = "Awesome title"
-    book_path = "FilePath"
+    header = runGet getWord32host file
+    book_author = "N/A"
+    book_path = "N/A"

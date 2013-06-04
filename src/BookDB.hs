@@ -45,4 +45,4 @@ dumpDB = do
                 (key, val) <- kccurget cur True
                 BLC.putStrLn $ BL.concat [BL.fromStrict key, " : ", BL.fromStrict val]
                 loop
-            loop `catch` \(exn::KcException) -> return ()
+            loop `catch` \(_::KcException) -> return ()
