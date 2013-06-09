@@ -6,7 +6,7 @@ module BookDB where
 import           ParseMobi
 import           Control.Exception
 import           Data.Binary as B
-import           Data.ByteString.Lazy as BL
+import qualified Data.ByteString.Lazy as BL
 import           Data.ByteString.Lazy.Char8 as BLC
 import           Database.KyotoCabinet.Db
 import           System.FilePath.Find as F
@@ -21,7 +21,8 @@ addFile file db = do
         Nothing -> BLC.putStrLn "Could not add file."
         Just parsed -> do
             BLC.putStrLn $ BL.concat ["Adding ", title parsed]
-            kcdbset db (BL.toStrict $ title parsed) (BL.toStrict $ B.encode parsed)
+            kcdbset db (BL.toStrict $ title parsed) (BL.toStrict $
+                B.encode parsed)
 
 initDB :: IO ()
 initDB = do

@@ -34,6 +34,6 @@ parseMobi :: BL.ByteString -> Maybe MobiInfo
 parseMobi file =
     Just $ MobiInfo book_author (BLC.pack $ show header) book_path
   where
-    header = runGet getWord32host file
+    header = runGet (getLazyByteString 32) file
     book_author = "N/A"
     book_path = "N/A"
