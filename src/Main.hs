@@ -2,8 +2,6 @@
 
 import BookDB
 import Data.ByteString.Lazy.Char8 as BS
-import Database.KyotoCabinet.Db as KC
-import ParseMobi
 import System.Environment
 import System.Exit
 
