@@ -1,3 +1,4 @@
 *.swp
 .hsenv
 Dist/
+*.mobi

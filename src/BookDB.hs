@@ -43,10 +43,6 @@ dumpDB = do
             kccurjump cur
             let loop = do
                 (key, val) <- kccurget cur True
-                BLC.putStrLn $ BL.concat
-                    [ BL.fromStrict key
-                    , " : "
-                    , BLC.pack $ show $ (B.decode $ BLC.fromStrict val :: MobiInfo)
-                    ]
+                Prelude.putStrLn $ show key ++ " : " ++ show (B.decode $ BLC.fromStrict val :: MobiInfo)
                 loop
             loop `catch` \(_::KcException) -> return ()
