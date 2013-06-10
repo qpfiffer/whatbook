@@ -17,7 +17,8 @@ import           Prelude hiding (catch)
 addFile :: FilePath -> KcDb -> IO ()
 addFile file db = do
     opened_file <- BL.readFile file
-    case parseMobi opened_file of
+    -- TODO: file does not need to be passed in here.
+    case parseMobi opened_file file of
         Nothing -> BLC.putStrLn "Could not add file."
         Just parsed -> do
             BLC.putStrLn $ BL.concat ["Adding ", title parsed]
@@ -29,12 +30,10 @@ initDB = do
     -- Kind of weird, but the KyotoCabinet DB bindings I am using determine
     -- the database type via the suffix.
     kcwithdbopen "books.kct" [] [KCOWRITER, KCOCREATE] $ \db -> do
-        -- 1. Find all .mobi files
-        -- 2. Parse the mobi itself and add the serialized MobiInfo object to
-        -- the db
-        -- 3. Cleanup
+        -- Find all of the mobi files in this directory
         mobi_files <- F.find always (extension ==? ".mobi"
             ||? extension ==? ".MOBI") "./"
+        -- Add them to the datbase
         mapM_ (\x -> addFile x db)  mobi_files
 
 dumpDB :: IO ()
@@ -44,6 +43,10 @@ dumpDB = do
             kccurjump cur
             let loop = do
                 (key, val) <- kccurget cur True
-                BLC.putStrLn $ BL.concat [BL.fromStrict key, " : ", BL.fromStrict val]
+                BLC.putStrLn $ BL.concat
+                    [ BL.fromStrict key
+                    , " : "
+                    , BLC.pack $ show $ (B.decode $ BLC.fromStrict val :: MobiInfo)
+                    ]
                 loop
             loop `catch` \(_::KcException) -> return ()

@@ -25,15 +25,18 @@ import           GHC.Generics (Generic)
 data MobiInfo = MobiInfo { author :: BL.ByteString
                          , title :: BL.ByteString
                          , filepath :: FilePath
-                         } deriving (Eq, Show, Generic)
+                         } deriving (Eq, Generic)
+
 instance Binary MobiInfo
+
+instance Show MobiInfo where
+    show a = (BLC.unpack $ author a) ++ ", " ++ (BLC.unpack $ title a)
 
 -- | Pass in a filehandle and parseMobi will spit out (probably) a MobiInfo
 -- thing.
-parseMobi :: BL.ByteString -> Maybe MobiInfo
-parseMobi file =
-    Just $ MobiInfo book_author (BLC.pack $ show header) book_path
+parseMobi :: BL.ByteString -> FilePath -> Maybe MobiInfo
+parseMobi file file_path =
+    Just $ MobiInfo (BLC.pack $ show book_author) (BLC.pack $ show header) file_path
   where
     header = runGet getLazyByteStringNul file
-    book_author = "N/A"
-    book_path = "N/A"
+    book_author = "N/A" --runGet getRemainingLazyByteString file
