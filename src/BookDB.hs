@@ -6,8 +6,9 @@ module BookDB where
 import           ParseMobi
 import           Control.Exception
 import           Data.Binary as B
+import qualified Data.ByteString.Char8 as BSC
 import qualified Data.ByteString.Lazy as BL
-import           Data.ByteString.Lazy.Char8 as BLC
+import qualified Data.ByteString.Lazy.Char8 as BLC
 import           Database.KyotoCabinet.Db
 import           System.FilePath.Find as F
 
@@ -43,6 +44,9 @@ dumpDB = do
             kccurjump cur
             let loop = do
                 (key, val) <- kccurget cur True
-                Prelude.putStrLn $ show key ++ " : " ++ show (B.decode $ BLC.fromStrict val :: MobiInfo)
+                let mobi = B.decode (BLC.fromStrict val) :: MobiInfo
+                BLC.putStrLn $ BLC.concat [BLC.fromStrict key, ":", author $ mobi]
+                -- BL.putStrLn $ BL.concat [key, " : ", (B.decode $
+                --     BLC.fromStrict val :: MobiInfo)]
                 loop
             loop `catch` \(_::KcException) -> return ()
