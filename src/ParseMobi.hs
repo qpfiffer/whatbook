@@ -25,12 +25,22 @@ import           GHC.Generics (Generic)
 data MobiInfo = MobiInfo { author :: BL.ByteString
                          , title :: BL.ByteString
                          , filepath :: FilePath
+                         , exth_offset :: ByteOffset
                          } deriving (Eq, Generic)
 
 instance Binary MobiInfo
 
 instance Show MobiInfo where
     show a = (BLC.unpack $ author a) ++ ", " ++ (BLC.unpack $ title a)
+
+-- Pass in an opened mobi file, and this will return the offset of the
+-- EXTH header.
+findEXTHHeader :: BL.ByteString -> Maybe ByteOffset
+findEXTHHeader "" = Nothing
+findEXTHHeader file =
+    -- Do something clever here.
+  where
+    read_func = runGet (getLazyByteString 4) file
 
 -- Pass in an opened mobi file, and this will search for the EXTH header
 -- and try to find the author in that file.
@@ -43,7 +53,7 @@ getAuthorFromFile file = Just "N/A"
 -- thing.
 parseMobi :: BL.ByteString -> FilePath -> Maybe MobiInfo
 parseMobi file file_path =
-    Just $ MobiInfo (BLC.pack $ show book_author) (BLC.pack $ show header) file_path
+    Just $ MobiInfo (BLC.pack $ show book_author) (BLC.pack $ show header) file_path 0
   where
     header = runGet getLazyByteStringNul file
     book_author = case getAuthorFromFile file of

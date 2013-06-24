@@ -6,7 +6,6 @@ module BookDB where
 import           ParseMobi
 import           Control.Exception
 import           Data.Binary as B
-import qualified Data.ByteString.Char8 as BSC
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.ByteString.Lazy.Char8 as BLC
 import           Database.KyotoCabinet.Db
