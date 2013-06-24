@@ -2,3 +2,5 @@
 .hsenv
 .virthualenv
 Dist/
+*.mobi
+*.kct
