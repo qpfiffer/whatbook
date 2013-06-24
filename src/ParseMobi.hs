@@ -32,6 +32,13 @@ instance Binary MobiInfo
 instance Show MobiInfo where
     show a = (BLC.unpack $ author a) ++ ", " ++ (BLC.unpack $ title a)
 
+-- Pass in an opened mobi file, and this will search for the EXTH header
+-- and try to find the author in that file.
+getAuthorFromFile :: BL.ByteString -> Maybe BL.ByteString
+getAuthorFromFile "" = Nothing
+getAuthorFromFile file = Just "N/A"
+--runGet getRemainingLazyByteString file
+
 -- | Pass in a filehandle and parseMobi will spit out (probably) a MobiInfo
 -- thing.
 parseMobi :: BL.ByteString -> FilePath -> Maybe MobiInfo
@@ -39,4 +46,6 @@ parseMobi file file_path =
     Just $ MobiInfo (BLC.pack $ show book_author) (BLC.pack $ show header) file_path
   where
     header = runGet getLazyByteStringNul file
-    book_author = "N/A" --runGet getRemainingLazyByteString file
+    book_author = case getAuthorFromFile file of
+        Nothing -> "N/A"
+        (Just author_name) -> author_name
