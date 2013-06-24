@@ -1,4 +1,4 @@
-name:                potential-octo-shame
+name:                whatbook
 version:             0.1.0.0
 synopsis:            A simple mobi parser, datastore and indexer for mobi files.
 -- description:
@@ -11,7 +11,7 @@ maintainer:          qpfiffer@gmail.com
 build-type:          Simple
 cabal-version:       >=1.8
 
-executable potential-octo-shame
+executable whatbook
   -- main-is:
   other-modules:       ParseMobi,
                        BookDB
